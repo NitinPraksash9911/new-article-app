@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'kotlin-kapt'
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    testOptions.unitTests.includeAndroidResources = true
+    defaultConfig {
+        applicationId "in.nitin.newsapp"
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "API_KEY", "\"e71596a45eae4bdf9d25b8454b55ce13\""
+            buildConfigField "String", "BASE_URL", "\"https://newsapi.org/\""
+        }
+    }
+    dataBinding.enabled = true
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //standard
+    implementation deps.ktx_stdlib
+    implementation deps.app_compat
+    implementation deps.ktx_core
+    implementation deps.const_layout
+
+    //legacy
+    implementation deps.lgcy
+
+    // android testImpl
+    testImplementation deps.testImpl.roboelectric
+    testImplementation deps.testImpl.runner
+    testImplementation deps.testImpl.core
+    testImplementation deps.testImpl.rules
+    testImplementation deps.testImpl.junit
+    testImplementation deps.testImpl.espresso_core
+    testImplementation deps.testImpl.espresso_contrib
+
+    //androidTestImpl
+    androidTestImplementation deps.testImpl.runner
+    androidTestImplementation deps.testImpl.core
+    androidTestImplementation deps.testImpl.rules
+    androidTestImplementation deps.testImpl.junit
+    androidTestImplementation deps.testImpl.espresso_core
+    androidTestImplementation deps.testImpl.espresso_contrib
+    //navigation
+    androidTestImplementation deps.testImpl.navigation
+
+    //fragment-testing
+    debugImplementation(deps.fragment_test) {
+        exclude group: 'androidx.test', module: 'core'
+    }
+
+    //design
+    implementation deps.design.material
+
+    //life cycle
+    implementation deps.lifecycle.extensions
+    implementation deps.lifecycle.viewmodel
+    implementation deps.lifecycle.livedata
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.common
+    implementation deps.lifecycle.savedstate
+
+    //dagger2
+    implementation deps.dagger.runtime
+    kapt deps.dagger.compiler
+
+    //roomDb
+    implementation deps.room.runtime
+    implementation deps.room.ktx
+    kapt deps.room.compiler
+
+    //roomDb
+    implementation deps.retrofit.retrofit
+    implementation deps.retrofit.gson_convertor
+    implementation deps.retrofit.interceptor
+
+    //coroutines
+    implementation deps.coroutines.core
+    implementation deps.coroutines.android
+
+    // navigation component
+    implementation deps.nav.fargment
+    implementation deps.nav.ui
+
+    // Glide
+    implementation deps.glide.runtime
+    kapt deps.glide.compiler
+
+}
